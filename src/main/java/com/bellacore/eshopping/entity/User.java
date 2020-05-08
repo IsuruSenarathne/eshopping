@@ -2,6 +2,7 @@ package com.bellacore.eshopping.entity;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
