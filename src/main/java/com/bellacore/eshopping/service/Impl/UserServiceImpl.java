@@ -1,6 +1,9 @@
 package com.bellacore.eshopping.service.Impl;
 
+import com.bellacore.eshopping.dto.userDto.UserCreateDto;
+import com.bellacore.eshopping.entity.Role;
 import com.bellacore.eshopping.entity.User;
+import com.bellacore.eshopping.repository.RoleRepository;
 import com.bellacore.eshopping.repository.UserRepository;
 import com.bellacore.eshopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -34,8 +40,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(User user) {
-
+    public void saveUser(UserCreateDto userCreateDto) {
+        List<Role> roles = roleRepository.findAllById(userCreateDto.getRoles());
+        User user = new User();
+        user.setUsername(userCreateDto.getUsername());
+        user.setEmail(userCreateDto.getEmail());
+        user.setPassword(userCreateDto.getPassword());
+        user.setRoles(roles);
         userRepository.save(user);
     }
 

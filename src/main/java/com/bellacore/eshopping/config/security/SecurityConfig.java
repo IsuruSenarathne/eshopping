@@ -44,12 +44,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/admin/**").hasRole(ADMIN.name())
-                .antMatchers("/profile/**").hasAnyRole(ADMIN.name(), MANAGER.name())
-                .antMatchers("/").permitAll()
-                .and()
-                .formLogin();
+        http.cors().and().csrf().disable();
+//        http.authorizeRequests()
+//                .antMatchers("/").permitAll()
+////                .antMatchers("/admin/**").hasRole(ADMIN.name())
+////                .antMatchers("/profile/**").hasAnyRole(ADMIN.name(), MANAGER.name())
+////                .antMatchers("/").permitAll()
+//                .and()
+//                .formLogin();
     }
 }

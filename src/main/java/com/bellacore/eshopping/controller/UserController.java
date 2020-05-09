@@ -1,8 +1,10 @@
 package com.bellacore.eshopping.controller;
 
+import com.bellacore.eshopping.dto.userDto.UserCreateDto;
 import com.bellacore.eshopping.entity.User;
 import com.bellacore.eshopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,13 +30,14 @@ public class UserController {
     }
 
     @GetMapping(path = "{userId}")
-    public Optional<User> getUser(Long userId){
+    public Optional<User> getUser(@PathVariable Long userId){
         return userService.getUser(userId);
     }
 
     @PostMapping
-    public void saveUser(@Valid @RequestBody User user){
-        userService.saveUser(user);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveUser(@Valid @RequestBody UserCreateDto userCreateDto){
+        userService.saveUser(userCreateDto);
     }
 
     @PutMapping(path = "{userId}")

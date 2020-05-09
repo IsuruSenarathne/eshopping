@@ -1,5 +1,6 @@
 package com.bellacore.eshopping.service;
 
+import com.bellacore.eshopping.dto.userDto.UserCreateDto;
 import com.bellacore.eshopping.entity.User;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface UserService {
 
     public Optional<User> getUser(Long userId);
 
-    public void saveUser(User user);
+    public void saveUser(UserCreateDto userCreateDto);
 
     public void updateUser(User user);
 
