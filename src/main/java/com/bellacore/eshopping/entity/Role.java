@@ -1,5 +1,6 @@
 package com.bellacore.eshopping.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import netscape.security.Privilege;
 
 import java.util.Collection;
@@ -20,9 +21,10 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnoreProperties("roles")
     private Collection<User> users;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "role_permission",
             joinColumns = @JoinColumn(

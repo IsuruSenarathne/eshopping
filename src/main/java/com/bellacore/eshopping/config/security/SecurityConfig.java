@@ -1,4 +1,4 @@
-package com.bellacore.eshopping.config;
+package com.bellacore.eshopping.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
+import static com.bellacore.eshopping.config.security.ApplicationUserRole.*;
+
 
 @Configuration
 @EnableWebSecurity
@@ -27,10 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder(){
+//        return new BCryptPasswordEncoder(10);
         return NoOpPasswordEncoder.getInstance();
     }
+
 
 
     @Override
@@ -43,8 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/profile/**").hasAnyRole("ADMIN", "MANAGER")
+                .antMatchers("/admin/**").hasRole(ADMIN.name())
+                .antMatchers("/profile/**").hasAnyRole(ADMIN.name(), MANAGER.name())
                 .antMatchers("/").permitAll()
                 .and()
                 .formLogin();

@@ -15,6 +15,6 @@ public class Permission {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "permissions")
+    @ManyToMany(mappedBy = "permissions", fetch = FetchType.EAGER)
     private Collection<Role> roles;
 }

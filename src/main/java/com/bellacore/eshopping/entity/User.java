@@ -1,6 +1,9 @@
 package com.bellacore.eshopping.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,15 +17,19 @@ public class User {
     private Long id;
 
     @Column(name = "username")
+    @NotNull
     private String username;
 
     @Column(name = "email")
+    @NotNull
     private String email;
 
     @Column(name = "password")
+    @NotNull
     private String password;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("users") // fix for remove circular reference on JSON resp
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(
