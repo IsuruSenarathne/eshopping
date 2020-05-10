@@ -2,12 +2,10 @@ package com.bellacore.eshopping.controller;
 
 import com.bellacore.eshopping.dto.userDto.UserCreateDto;
 import com.bellacore.eshopping.entity.User;
-import com.bellacore.eshopping.exception.UserNotFoundException;
 import com.bellacore.eshopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/users")
-public class UserController {
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+@RequestMapping("/products")
+public class ProductController {
 
     @Autowired
     private UserService userService;

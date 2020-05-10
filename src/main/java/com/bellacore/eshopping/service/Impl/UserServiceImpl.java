@@ -3,6 +3,7 @@ package com.bellacore.eshopping.service.Impl;
 import com.bellacore.eshopping.dto.userDto.UserCreateDto;
 import com.bellacore.eshopping.entity.Role;
 import com.bellacore.eshopping.entity.User;
+import com.bellacore.eshopping.exception.UserNotFoundException;
 import com.bellacore.eshopping.repository.RoleRepository;
 import com.bellacore.eshopping.repository.UserRepository;
 import com.bellacore.eshopping.service.UserService;
@@ -33,8 +34,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUser(Long userId) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findById(userId);
-        if (user == null){
-            throw new UsernameNotFoundException("No user found.");
+        if (!user.isPresent()  || user == null){
+            throw new UserNotFoundException("No user found.");
         }
         return user;
     }
