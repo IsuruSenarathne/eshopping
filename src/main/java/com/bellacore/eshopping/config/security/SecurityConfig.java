@@ -30,8 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder(10);
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder(10);
+//        return NoOpPasswordEncoder.getInstance();
     }
 
 
@@ -44,13 +44,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable();
-//        http.authorizeRequests()
-//                .antMatchers("/").permitAll()
-////                .antMatchers("/admin/**").hasRole(ADMIN.name())
-////                .antMatchers("/profile/**").hasAnyRole(ADMIN.name(), MANAGER.name())
-////                .antMatchers("/").permitAll()
-//                .and()
-//                .formLogin();
+        http.cors().and().csrf().disable()
+            .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/admin/**").hasRole(ADMIN.name())
+                .antMatchers("/profile/**").hasAnyRole(ADMIN.name(), MANAGER.name())
+                .antMatchers("/").permitAll()
+                .and()
+                .formLogin();
     }
 }
