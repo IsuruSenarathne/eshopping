@@ -16,25 +16,41 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.servlet.http.HttpServletRequest;
+
 @ControllerAdvice
 public class UserExceptionHandler extends ResponseEntityExceptionHandler {
+//    @ExceptionHandler(Exception.class)
+//    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
+//        ErrorResponse error = new ErrorResponse("Server Error", ex.getLocalizedMessage());
+//        return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
+
+//    @ExceptionHandler(UserNotFoundException.class)
+//    public final ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+//        ErrorResponse error = new ErrorResponse("User Not Found",  ex.getLocalizedMessage());
+//        return new ResponseEntity(error, HttpStatus.NOT_FOUND);
+//    }
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        ErrorResponse error = new ErrorResponse("Server Error", ex.getLocalizedMessage());
-        return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    @ResponseBody ErrorResponse
+    handleInternalError(HttpServletRequest req, Exception ex) {
+        return new ErrorResponse("INTERNAL_SERVER_ERROR", ex.toString());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UserNotFoundException.class)
-    public final ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
-        ErrorResponse error = new ErrorResponse("User Not Found",  ex.getLocalizedMessage());
-        return new ResponseEntity(error, HttpStatus.NOT_FOUND);
+    @ResponseBody ErrorResponse
+    handleBadRequest(HttpServletRequest req, Exception ex) {
+        return new ErrorResponse("FUCK Not Found", ex.getMessage());
     }
+
+
 }

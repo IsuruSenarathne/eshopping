@@ -25,9 +25,9 @@ public class ProductController {
         return userService.getAllUsers();
     }
 
-    @GetMapping(path = "{userId}")
-    public Optional<User> getUser(@PathVariable Long userId){
-        return userService.getUser(userId);
+    @GetMapping(path = "{productId}")
+    public Optional<User> getUser(@PathVariable Long productId){
+        return userService.getUser(productId);
     }
 
     @PostMapping
