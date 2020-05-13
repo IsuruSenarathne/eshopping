@@ -1,5 +1,6 @@
 package com.bellacore.eshopping.config.security;
 
+import com.bellacore.eshopping.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,10 +9,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.sql.DataSource;
 import static com.bellacore.eshopping.config.security.ApplicationUserRole.*;
@@ -45,12 +48,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-            .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/admin/**").hasRole(ADMIN.name())
-                .antMatchers("/profile/**").hasAnyRole(ADMIN.name(), MANAGER.name())
-                .antMatchers("/").permitAll()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .formLogin();
+                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager()))
+                .authorizeRequests()
+//                .antMatchers("/").permitAll()
+//                .antMatchers("/admin/**").hasRole(ADMIN.name())
+//                .antMatchers("/profile/**").hasAnyRole(ADMIN.name(), MANAGER.name())
+                .antMatchers("/").permitAll()
+                .anyRequest()
+                .authenticated();
     }
 }
