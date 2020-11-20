@@ -8,6 +8,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import static com.bellacore.eshopping.config.security.ApplicationUserPermission.*;
 
 public enum ApplicationUserRole {
@@ -29,12 +31,11 @@ public enum ApplicationUserRole {
         return permissions;
     }
 
-    public Set<GrantedAuthority> getGrantedAuthorities(){
-        Set<GrantedAuthority> permissions = new HashSet<>();
-        getPermissions().stream().forEach(p -> {
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+ p.name());
-            permissions.add(authority);
-        });
+    public Set<SimpleGrantedAuthority> getGrantedAuthorities(){
+        Set<SimpleGrantedAuthority> permissions = getPermissions()
+                .stream().map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
+                .collect(Collectors.toSet());
+        permissions.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
         return permissions;
     }
 }

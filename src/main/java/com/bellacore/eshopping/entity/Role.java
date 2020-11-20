@@ -1,11 +1,7 @@
 package com.bellacore.eshopping.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import netscape.security.Privilege;
-
 import java.util.Collection;
-import java.util.List;
-
 import javax.persistence.*;
 
 @Entity

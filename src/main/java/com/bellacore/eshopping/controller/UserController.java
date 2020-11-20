@@ -15,15 +15,18 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
     private UserService userService;
+
+    @Autowired
+    public UserController(UserService userService, PasswordEncoder passwordEncoder){
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @GetMapping
     public List<User> getAllUser(Model model){

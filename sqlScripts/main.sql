@@ -1,0 +1,112 @@
+CREATE DATABASE eshopping;
+
+use eshopping;
+drop database eshopping;
+
+
+CREATE TABLE `user` (
+	`ID` INT(11) NOT  NULL,
+	`FIRST_NAME` VARCHAR(128) NOT NULL,
+	`LAST_NAME` VARCHAR(128) NOT NULL,
+	`EMAIL` VARCHAR(128) NOT NULL,
+	
+	PRIMARY KEY (`ID`)
+	 
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `CUSTOMER` (
+	`ID`authorities INT(11) NOT  NULL,
+	`FIRST_NAME` VARCHAR(128) NOT NULL,
+	`LAST_NAME` VARCHAR(128) NOT NULL,
+	`EMAIL` VARCHAR(128) NOT NULL,
+	
+	PRIMARY KEY (`ID`)
+	 
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+insert into `user`	values 
+	(1,  "shali@eshop.com", "123", "shali"),
+	(2,  "isuru@eshop.com", "123", "isuru"),
+	(3,  "hashan@eshop.com", "123", "hashan");
+    
+select * from `user`;
+drop table `user`;
+CREATE TABLE `USER` (
+	`ID` INT(11) NOT  NULL,
+	`USERNAME` VARCHAR(128) NOT NULL,
+	`EMAIL` VARCHAR(128) NOT NULL,
+	`PASSWORD` VARCHAR(128) NOT NULL,
+	
+	PRIMARY KEY (`ID`)
+	 
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `ROLE` (
+	`ID` INT(11) NOT  NULL,
+	`NAME` VARCHAR(128) NOT NULL,
+	
+	PRIMARY KEY (`ID`)
+	 
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;
+DROP TABLE `ROLE`;
+insert into `ROLE`	values 
+(1, "USER"),
+(2, "MANAGER"),
+	(3, "ADMIN");
+	
+	
+    
+    select * from `ROLE`;
+    
+CREATE TABLE `PERMISSION` (
+	`ID` INT(11) NOT  NULL,
+	`NAME` VARCHAR(128) NOT NULL,
+	
+	PRIMARY KEY (`ID`)
+	 
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;
+
+insert into `PERMISSION`	values 
+	(1, "CREATE_USER"),
+	(2, "UPDATE_USER"),
+	(3, "DELETE_USER");
+    
+    select * from `PERMISSION`;
+    
+CREATE TABLE `ROLE_USER` (
+	`ROLE_ID` INT(11) NOT NULL,
+    `USER_ID` INT(11) NOT NULL,
+    
+    PRIMARY KEY (`ROLE_ID`, `USER_ID`),
+    CONSTRAINT `FK_ROLE_USER` FOREIGN KEY (`ROLE_ID`) REFERENCES `ROLE`(`ID`),
+    CONSTRAINT `FK_USER` FOREIGN KEY (`USER_ID`) REFERENCES `USER`(`ID`)
+);
+
+insert into `USER_ROLE`	values 
+	(1,1),
+	(1, 2),
+    (1, 3),
+    (3, 3),
+    (2, 2);
+    
+    select * from `USER_ROLE`;
+    DROP TABLE `ROLE_USER`;
+
+CREATE TABLE `ROLE_PERMISSION` (
+	`ROLE_ID` INT(11) NOT NULL,
+    `PERMISSION_ID` INT(11) NOT NULL,
+    
+    PRIMARY KEY (`ROLE_ID`, `PERMISSION_ID`),
+    CONSTRAINT `FK_ROLE_PERM` FOREIGN KEY (`ROLE_ID`) REFERENCES `ROLE`(`ID`),
+    CONSTRAINT `FK_PERMISSION` FOREIGN KEY (`PERMISSION_ID`) REFERENCES `PERMISSION`(`ID`)
+);
+insert into `ROLE_PERMISSION`	values 
+	(3,1),
+	(3, 1),
+    (3, 1),
+    (3, 3),
+    (2, 2);
+ select * from `ROLE_PERMISSION`;
+
+    
